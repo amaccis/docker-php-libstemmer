@@ -32,3 +32,4 @@ RUN set -eux; \
     rm libstemmer_c.tgz; \
     apk del --no-network .build-deps
 
+WORKDIR /var/www
