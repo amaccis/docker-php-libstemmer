@@ -11,7 +11,7 @@ The purpouse of this image is to provide an Alpine Linux environment with PHP 7.
 
 ## Using docker
 ```bash
-$ docker run --name php-libstemmer -v ./:/var/www -d amaccis/php-libstemmer
+$ docker run --name php-libstemmer -v $PWD/:/var/www -d amaccis/php-libstemmer
 ```
 
 ## Using docker-compose
