@@ -3,7 +3,8 @@ FROM php:7.4.3-fpm-alpine3.11
 LABEL maintainer="Andrea Maccis <andrea.maccis@gmail.com>"
 
 ENV LIBSTEMMER_URL "https://snowballstem.org/dist/libstemmer_c.tgz"
-ENV COMPOSER_URL = "https://getcomposer.org/installer"
+ENV COMPOSER_URL "https://getcomposer.org/installer"
+ENV COMPOSER_VERSION 1.9.3
 
 COPY Makefile /usr/src
 
@@ -35,7 +36,7 @@ RUN set -eux; \
     curl -sS $COMPOSER_URL | php -- \
         --install-dir=/usr/local/bin \
         --filename=composer \
-        --version=1.9.3; \
+        --version=$COMPOSER_VERSION; \
     apk del --no-network .build-deps;
 
 WORKDIR /var/www
