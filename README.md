@@ -1,6 +1,6 @@
 # amaccis/php-libstemmer
 
-The purpouse of this image is to provide an Alpine Linux environment with PHP 7.4 onboard, its [FFI](https://www.php.net/manual/en/book.ffi.php) extension enabled and the [libstemmer](https://snowballstem.org/dist/libstemmer_c.tgz) compiled as a shared library.
+The purpouse of this image is to provide an Alpine Linux environment with PHP 7.4 onboard, its [FFI](https://www.php.net/manual/en/book.ffi.php) extension enabled and the [libstemmer](https://snowballstem.org/dist/libstemmer_c.tgz) compiled as a shared library. Besides, [composer](https://getcomposer.org) is included.
 
 # Snowball and libstemmer
 
