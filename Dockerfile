@@ -36,6 +36,6 @@ RUN set -eux; \
         --install-dir=/usr/local/bin \
         --filename=composer \
         --version=1.9.3; \
-    apk del --no-network .build-deps; \
+    apk del --no-network .build-deps;
 
 WORKDIR /var/www
