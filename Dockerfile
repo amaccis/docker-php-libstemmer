@@ -1,10 +1,14 @@
-FROM php:7.4.3-fpm-alpine3.11
+FROM php:8.0.1-fpm-alpine3.13
 
 LABEL maintainer="Andrea Maccis <andrea.maccis@gmail.com>"
 
-ENV LIBSTEMMER_URL "https://snowballstem.org/dist/libstemmer_c.tgz"
+ENV LIBSTEMMER_VERSION 2.1.0
+ENV COMPOSER_VERSION 2.0.8
+
+ENV LIBSTEMMER_DIRECTORY "libstemmer_c-${LIBSTEMMER_VERSION}"
+ENV LIBSTEMMER_FILENAME "${LIBSTEMMER_DIRECTORY}.tar.gz"
+ENV LIBSTEMMER_URL "https://snowballstem.org/dist/${LIBSTEMMER_FILENAME}"
 ENV COMPOSER_URL "https://getcomposer.org/installer"
-ENV COMPOSER_VERSION 1.9.3
 
 COPY Makefile /usr/src
 
@@ -23,15 +27,15 @@ RUN set -eux; \
     # libstemmer
     mkdir -p /usr/src; \
     cd /usr/src; \
-    curl -fsSL -o libstemmer_c.tgz $LIBSTEMMER_URL; \
-    tar xfz /usr/src/libstemmer_c.tgz; \
-    mv Makefile libstemmer_c; \
-    cd libstemmer_c; \
+    curl -fsSL -o $LIBSTEMMER_FILENAME $LIBSTEMMER_URL; \
+    tar xfz /usr/src/$LIBSTEMMER_FILENAME; \
+    mv Makefile $LIBSTEMMER_DIRECTORY; \
+    cd $LIBSTEMMER_DIRECTORY; \
     make; \
     cp libstemmer.so /usr/lib; \
     cd /usr/src; \
-    rm -rf libstemmer_c; \
-    rm libstemmer_c.tgz; \
+    rm -rf $LIBSTEMMER_DIRECTORY; \
+    rm $LIBSTEMMER_FILENAME; \
     # composer
     curl -sS $COMPOSER_URL | php -- \
         --install-dir=/usr/local/bin \
