@@ -1,4 +1,4 @@
-include mkinc_utf8.mak
+include mkinc.mak
 CFLAGS=-fPIC -O2
 CPPFLAGS=-Iinclude
 LDFLAGS=-shared
