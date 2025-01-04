@@ -1,10 +1,10 @@
-FROM php:8.1.18-fpm-alpine3.17
+FROM php:8.4.2-fpm-alpine3.21
 
 LABEL maintainer="Andrea Maccis <andrea.maccis@gmail.com>"
 
 ARG libstemmer_version=2.2.0
-ARG composer_version=2.5.5
-ARG docker_php_extension_installer_version=2.1.20
+ARG composer_version=2.8.4
+ARG docker_php_extension_installer_version=2.7.8
 
 ENV LIBSTEMMER_VERSION=${libstemmer_version}
 ENV COMPOSER_VERSION=${composer_version}
@@ -13,6 +13,13 @@ ENV DOCKER_PHP_EXTENSION_INSTALLER_VERSION=${docker_php_extension_installer_vers
 COPY Makefile /usr/src
 
 RUN set -eux ; \
+    # install virtual .build-deps \
+    apk add --no-cache --virtual .build-deps \
+            tar \
+            perl \
+            gcc \
+            g++ \
+            make ; \
     # install https://github.com/mlocati/docker-php-extension-installer \
     curl \
         --silent \
@@ -21,17 +28,10 @@ RUN set -eux ; \
         --retry 3 \
         --output /usr/local/bin/install-php-extensions \
         --url https://github.com/mlocati/docker-php-extension-installer/releases/download/$DOCKER_PHP_EXTENSION_INSTALLER_VERSION/install-php-extensions ; \
-    echo "98af76422af691b5a538886d131285c1ff9bca338d3b6f3c58f414e79222ca2c75eeaf89a0f654bf1ce54a69eee3843d09fa39551956859fd132d8aa394eafe9  /usr/local/bin/install-php-extensions" | sha512sum -c ; \
+    echo "b10398f638da687394b0b60806b3cbc266447d22fa0dab9f3b1fc2e32f56596bfddff9b73d52027f26748885942d0bce6858355bd0178598732f54202fb48f46  /usr/local/bin/install-php-extensions" | sha512sum -c ; \
     chmod +x /usr/local/bin/install-php-extensions ; \
     # install ffi \
     install-php-extensions ffi ; \
-    apk add --no-cache --virtual .build-deps \
-            curl \
-            tar \
-            perl \
-            gcc \
-            g++ \
-            make ; \
     # build libstemmer \
     mkdir -p /usr/src ; \
     cd /usr/src ; \
