@@ -1,14 +1,21 @@
-FROM php:8.4.2-fpm-alpine3.21
+ARG php_version
+ARG alpine_version
+ARG libstemmer_version
+
+FROM php:${php_version}-fpm-alpine${alpine_version}
 
 LABEL maintainer="Andrea Maccis <andrea.maccis@gmail.com>"
 
-ARG libstemmer_version=2.2.0
-ARG composer_version=2.8.4
-ARG docker_php_extension_installer_version=2.7.8
+ARG php_version
+ARG alpine_version
+ARG libstemmer_version
 
+ENV PHP_VERSION=${php_version}
+ENV ALPINE_VERSION=${alpine_version}
 ENV LIBSTEMMER_VERSION=${libstemmer_version}
-ENV COMPOSER_VERSION=${composer_version}
-ENV DOCKER_PHP_EXTENSION_INSTALLER_VERSION=${docker_php_extension_installer_version}
+
+ENV COMPOSER_VERSION=2.8.8
+ENV DOCKER_PHP_EXTENSION_INSTALLER_VERSION=2.7.33
 
 COPY Makefile /usr/src
 
@@ -28,7 +35,7 @@ RUN set -eux ; \
         --retry 3 \
         --output /usr/local/bin/install-php-extensions \
         --url https://github.com/mlocati/docker-php-extension-installer/releases/download/$DOCKER_PHP_EXTENSION_INSTALLER_VERSION/install-php-extensions ; \
-    echo "b10398f638da687394b0b60806b3cbc266447d22fa0dab9f3b1fc2e32f56596bfddff9b73d52027f26748885942d0bce6858355bd0178598732f54202fb48f46  /usr/local/bin/install-php-extensions" | sha512sum -c ; \
+    echo "8481ae5d7c9f6d8bff2852bc460c4ce2f86d78bab9e3de6d82735adb78d9f92ceb97896f4e8afff1d042eec98ea1fa2f89cd740ffb9a76d365ab532915b32518  /usr/local/bin/install-php-extensions" | sha512sum -c ; \
     chmod +x /usr/local/bin/install-php-extensions ; \
     # install ffi \
     install-php-extensions ffi ; \
@@ -36,7 +43,6 @@ RUN set -eux ; \
     mkdir -p /usr/src ; \
     cd /usr/src ; \
     curl -fsSL -o libstemmer_c.tar.gz https://snowballstem.org/dist/libstemmer_c-$LIBSTEMMER_VERSION.tar.gz ; \
-    echo "a61a06a046a6a5e9ada12310653c71afb27b5833fa9e21992ba4bdf615255de991352186a8736d0156ed754248a0ffb7b7712e8d5ea16f75174d1c8ddd37ba4a  /usr/src/libstemmer_c.tar.gz" | sha512sum -c ; \
     mkdir libstemmer_c ; \
     tar xfz /usr/src/libstemmer_c.tar.gz -C libstemmer_c --strip-components=1 ; \
     mv Makefile libstemmer_c ; \
