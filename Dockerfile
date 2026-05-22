@@ -1,5 +1,5 @@
-ARG php_version
-ARG alpine_version
+ARG php_version=8.2.31
+ARG alpine_version=3.23
 ARG libstemmer_version
 
 FROM php:${php_version}-fpm-alpine${alpine_version}
@@ -14,8 +14,8 @@ ENV PHP_VERSION=${php_version}
 ENV ALPINE_VERSION=${alpine_version}
 ENV LIBSTEMMER_VERSION=${libstemmer_version}
 
-ENV COMPOSER_VERSION=2.8.8
-ENV DOCKER_PHP_EXTENSION_INSTALLER_VERSION=2.7.33
+ENV COMPOSER_VERSION=2.9.8
+ENV DOCKER_PHP_EXTENSION_INSTALLER_VERSION=2.11.1
 
 COPY Makefile /usr/src
 
@@ -35,7 +35,7 @@ RUN set -eux ; \
         --retry 3 \
         --output /usr/local/bin/install-php-extensions \
         --url https://github.com/mlocati/docker-php-extension-installer/releases/download/$DOCKER_PHP_EXTENSION_INSTALLER_VERSION/install-php-extensions ; \
-    echo "8481ae5d7c9f6d8bff2852bc460c4ce2f86d78bab9e3de6d82735adb78d9f92ceb97896f4e8afff1d042eec98ea1fa2f89cd740ffb9a76d365ab532915b32518  /usr/local/bin/install-php-extensions" | sha512sum -c ; \
+    echo "ca45e43f4299997f3cc78459eb7cc29c125281db8779f99209dc3fe3298fd117  /usr/local/bin/install-php-extensions" | sha256sum -c ; \
     chmod +x /usr/local/bin/install-php-extensions ; \
     # install ffi \
     install-php-extensions ffi ; \
