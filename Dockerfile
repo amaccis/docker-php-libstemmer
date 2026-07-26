@@ -4,7 +4,10 @@ ARG libstemmer_version
 
 FROM php:${php_version}-fpm-alpine${alpine_version}
 
-LABEL maintainer="Andrea Maccis <andrea.maccis@gmail.com>"
+LABEL org.opencontainers.image.authors="Andrea Maccis <andrea.maccis@gmail.com>"
+LABEL org.opencontainers.image.source="https://github.com/amaccis/docker-php-libstemmer"
+LABEL org.opencontainers.image.description="PHP Alpine image with FFI extension and libstemmer compiled as shared library"
+LABEL org.opencontainers.image.licenses="MIT"
 
 ARG php_version
 ARG alpine_version
